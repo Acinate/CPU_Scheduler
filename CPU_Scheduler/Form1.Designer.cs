@@ -42,6 +42,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
+            this.readyQuePanel = new System.Windows.Forms.Panel();
             this.cyclePanel = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,6 +70,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.readyQuePanel);
             this.splitContainer1.Panel2.Controls.Add(this.cyclePanel);
             this.splitContainer1.Size = new System.Drawing.Size(1568, 1079);
             this.splitContainer1.SplitterDistance = 620;
@@ -170,7 +172,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(150, 44);
             this.button3.TabIndex = 2;
-            this.button3.Text = "Generate Random";
+            this.button3.Text = "New Random";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -182,7 +184,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 44);
             this.button2.TabIndex = 1;
-            this.button2.Text = "Remove Process";
+            this.button2.Text = "Delete";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // btnNew
@@ -196,6 +198,14 @@
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
+            // readyQuePanel
+            // 
+            this.readyQuePanel.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.readyQuePanel.Location = new System.Drawing.Point(4, 260);
+            this.readyQuePanel.Name = "readyQuePanel";
+            this.readyQuePanel.Size = new System.Drawing.Size(924, 195);
+            this.readyQuePanel.TabIndex = 1;
+            // 
             // cyclePanel
             // 
             this.cyclePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -203,7 +213,7 @@
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(933, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(925, 199);
             this.cyclePanel.TabIndex = 0;
             // 
             // Form1
@@ -246,6 +256,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TimeLeft;
         private System.Windows.Forms.DataGridViewTextBoxColumn Runtime;
         private System.Windows.Forms.Panel cyclePanel;
+        private System.Windows.Forms.Panel readyQuePanel;
     }
 }
 
