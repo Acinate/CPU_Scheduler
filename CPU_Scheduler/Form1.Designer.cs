@@ -40,7 +40,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnSimulate = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.readyQuePanel = new System.Windows.Forms.Panel();
             this.cyclePanel = new System.Windows.Forms.Panel();
@@ -154,7 +154,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnSimulate);
             this.groupBox1.Controls.Add(this.btnNew);
             this.groupBox1.Location = new System.Drawing.Point(58, 256);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
@@ -175,17 +175,18 @@
             this.button3.Text = "New Random";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnSimulate
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnSimulate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(174, 37);
-            this.button2.Margin = new System.Windows.Forms.Padding(6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(150, 44);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Delete";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSimulate.Location = new System.Drawing.Point(174, 37);
+            this.btnSimulate.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSimulate.Name = "btnSimulate";
+            this.btnSimulate.Size = new System.Drawing.Size(150, 44);
+            this.btnSimulate.TabIndex = 1;
+            this.btnSimulate.Text = "Simulate";
+            this.btnSimulate.UseVisualStyleBackColor = true;
+            this.btnSimulate.Click += new System.EventHandler(this.btnSimulate_Click);
             // 
             // btnNew
             // 
@@ -203,17 +204,18 @@
             this.readyQuePanel.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.readyQuePanel.Location = new System.Drawing.Point(4, 260);
             this.readyQuePanel.Name = "readyQuePanel";
-            this.readyQuePanel.Size = new System.Drawing.Size(924, 195);
+            this.readyQuePanel.Size = new System.Drawing.Size(933, 195);
             this.readyQuePanel.TabIndex = 1;
             // 
             // cyclePanel
             // 
             this.cyclePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cyclePanel.AutoScroll = true;
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(925, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(933, 199);
             this.cyclePanel.TabIndex = 0;
             // 
             // Form1
@@ -246,7 +248,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSimulate;
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.BindingSource bindingSource1;

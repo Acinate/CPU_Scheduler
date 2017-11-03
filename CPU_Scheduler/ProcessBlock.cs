@@ -14,5 +14,8 @@ namespace CPU_Scheduler
         public int y_position { get; set; }
         public int width { get; set; }
         public int height { get; set; }
+        public PointF draw_point { get; set; }
+        public Font font = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Regular);
+        public SolidBrush text_brush = new SolidBrush(Color.White);
     }
 }

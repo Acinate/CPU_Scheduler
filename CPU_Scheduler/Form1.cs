@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CPU_Scheduler
@@ -14,6 +16,8 @@ namespace CPU_Scheduler
         public Form1()
         {
             InitializeComponent();
+            // this.Height = Screen.PrimaryScreen.Bounds.Height;
+            // this.Width = Screen.PrimaryScreen.Bounds.Width;
             processes = new List<Process>();
             readyQue = new ReadyQue();
             autoSizeColumnNames(); // Resize our grid component
@@ -31,23 +35,49 @@ namespace CPU_Scheduler
                 timeleft = 30000,
                 block = new ProcessBlock() { brush_color = new SolidBrush(Color.FromArgb(100, Color.Green)), x_position = 0, y_position = 0, width = 10, height = readyQuePanel.Height }
             };
+            Process test1 = new Process()
+            {
+                id = 200,
+                state = "Idle",
+                priority = 5,
+                runtime = 0,
+                timeleft = 30000,
+                block = new ProcessBlock() { brush_color = new SolidBrush(Color.FromArgb(100, Color.Green)), x_position = 0, y_position = 0, width = 10, height = readyQuePanel.Height }
+            };
             readyQue.addProcess(test);
+            readyQue.addProcess(test1);
         }
         private void cyclePanel_Paint(object sender, PaintEventArgs e)
         {
+            List<Process> updatedProcesses = new List<Process>();
             Panel p = sender as Panel;
             Graphics g = e.Graphics;
+            // If panel is full, remove the first item :: Can add a while loop here in the future
+            if (processes.Count > 1)
+            {
+                if (cyclePanel.Width < 2.0 * (processes[processes.Count - 2].block.x_position + 1 + processes[processes.Count - 2].block.width))
+                {
+                    processes.RemoveAt(0);
+                }
+            }
             // Calculate drawing properties for each Process object          
             for (int i=0;i<processes.Count;i++)
             {
+                Process current = processes[i];
+                Process prev;
                 if (i == 0)
-                    processes[i].block.x_position = 0;
+                    current.block.x_position = 0;
                 else
-                    processes[i].block.x_position = processes[i - 1].block.x_position + 1 + processes[i - 1].block.width;
-                processes[i].block.y_position = 0;
-                processes[i].block.width = 10;
-                processes[i].block.height = cyclePanel.Height;
+                {
+                    prev = processes[i - 1];
+                    current.block.x_position = prev.block.x_position + 1 + prev.block.width;
+                }   
+                current.block.y_position = 0;
+                current.block.width = 10;
+                current.block.height = cyclePanel.Height;
+                updatedProcesses.Add(current);
             }
+            processes = updatedProcesses;
             // Paint each Process object to the screen
             foreach (Process process in processes) {
                 e.Graphics.FillRectangle(process.block.brush_color, process.block.x_position, process.block.y_position, process.block.width,process.block.height);
@@ -60,16 +90,22 @@ namespace CPU_Scheduler
             Graphics g = e.Graphics;
             for (int i=0;i<readyQue.processes.Count;i++)
             {
+                Process current = readyQue.processes[i];
+                Process prev;
                 if (i == 0)
-                    readyQue.processes[i].block.x_position = 0;
+                    current.block.x_position = 0;
                 else
-                    readyQue.processes[i].block.x_position = readyQue.processes[i - 1].block.x_position + 1 + readyQue.processes[i - 1].block.width;
-                readyQue.processes[i].block.width = 10;
-                readyQue.processes[i].block.height = readyQuePanel.Height;
-
-                foreach (Process process in readyQue.processes)
                 {
-                    e.Graphics.FillRectangle(process.block.brush_color, process.block.x_position, process.block.y_position, process.block.width, process.block.height);
+                    prev = readyQue.processes[i - 1];
+                    current.block.x_position = prev.block.x_position + 1 + prev.block.width;
+                }
+                current.block.width = 50;
+                current.block.height = readyQuePanel.Height;
+                current.block.draw_point = new PointF(current.block.x_position,(current.block.y_position/2));
+                foreach (Process pro in readyQue.processes)
+                {
+                    e.Graphics.FillRectangle(pro.block.brush_color, pro.block.x_position, pro.block.y_position, pro.block.width, pro.block.height);
+                    e.Graphics.DrawString(pro.id.ToString(), pro.block.font, pro.block.text_brush, pro.block.draw_point);
                 }
             }
         }
@@ -95,7 +131,7 @@ namespace CPU_Scheduler
             table.Columns.AddRange(columns);
             bindingSource1.DataSource = table.DefaultView;
         }
-        private void addProcess(int pid)
+        private async void addProcess(int pid)
         {
             Random r = new Random();
             int rPriority = r.Next(0, 5);
@@ -121,7 +157,7 @@ namespace CPU_Scheduler
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
-            table.Rows.Add(row);
+            await Task.Factory.StartNew(() => table.Rows.Add(row));
         }
         private void btnNew_Click(object sender, EventArgs e)
         {
@@ -137,6 +173,22 @@ namespace CPU_Scheduler
             }
             addProcess(indexOfLastId);
             cyclePanel.Refresh();
+            Console.WriteLine(cyclePanel.Width);
+        }
+
+        private async void simulate()
+        {
+            for (int i=0;i<1000;i++)
+            {
+                await Task.Factory.StartNew(() => addProcess(1337));
+                Thread.Sleep(100);
+                cyclePanel.Refresh();
+            }
+        }
+
+        private void btnSimulate_Click(object sender, EventArgs e)
+        {
+            simulate();
         }
     }
 }
