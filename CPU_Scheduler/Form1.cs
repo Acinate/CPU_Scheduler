@@ -18,10 +18,8 @@ namespace CPU_Scheduler
         public Form1()
         {
             InitializeComponent();
-            // this.Height = Screen.PrimaryScreen.Bounds.Height;
-            // this.Width = Screen.PrimaryScreen.Bounds.Width;
             processes = new List<Process>();
-            readyQue = new ReadyQue();
+            readyQue = new ReadyQue(this);
             autoSizeColumnNames(); // Resize our grid component
             addPropertyNames(); // Add property names to columns so we can bind to them
             createTable(); // Create a data table object and add it to our data source
@@ -29,30 +27,11 @@ namespace CPU_Scheduler
             DoubleBuffered = true;
             cyclePanel.Paint += new PaintEventHandler(cyclePanel_Paint); // Add OnPaint Event for Gantt chart
             readyQuePanel.Paint += new PaintEventHandler(readyQue_Paint); // Add OnPaint Event for readyque panel
+            // Adds double buffering to get rid of paint flickering
             typeof(Panel).InvokeMember("DoubleBuffered",
-    BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-    null, cyclePanel, new object[] { true });
-            Process test = new Process()
-            {
-                id = 100,
-                state = "Idle",
-                priority = 5,
-                runtime = 0,
-                timeleft = 30000,
-                block = new ProcessBlock() { brush_color = new SolidBrush(Color.FromArgb(100, Color.Green)), x_position = 0, y_position = 0, width = 10, height = readyQuePanel.Height }
-            };
-            Process test1 = new Process()
-            {
-                id = 200,
-                state = "Idle",
-                priority = 5,
-                runtime = 0,
-                timeleft = 30000,
-                block = new ProcessBlock() { brush_color = new SolidBrush(Color.FromArgb(100, Color.Green)), x_position = 0, y_position = 0, width = 10, height = readyQuePanel.Height }
-            };
-            readyQue.addProcess(test);
-            readyQue.addProcess(test1);
-            readyQue.run();
+            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+            null, cyclePanel, new object[] { true });
+            // Adding Processes to ready que
         }
         private void cyclePanel_Paint(object sender, PaintEventArgs e)
         {
@@ -93,28 +72,7 @@ namespace CPU_Scheduler
         }
         private void readyQue_Paint(object sender, PaintEventArgs e)
         {
-            Panel p = sender as Panel;
-            Graphics g = e.Graphics;
-            for (int i=0;i<readyQue.processes.Count;i++)
-            {
-                Process current = readyQue.processes[i];
-                Process prev;
-                if (i == 0)
-                    current.block.x_position = 0;
-                else
-                {
-                    prev = readyQue.processes[i - 1];
-                    current.block.x_position = prev.block.x_position + 1 + prev.block.width;
-                }
-                current.block.width = 50;
-                current.block.height = readyQuePanel.Height;
-                current.block.draw_point = new PointF(current.block.x_position,(current.block.y_position/2));
-                foreach (Process pro in readyQue.processes)
-                {
-                    e.Graphics.FillRectangle(pro.block.brush_color, pro.block.x_position, pro.block.y_position, pro.block.width, pro.block.height);
-                    e.Graphics.DrawString(pro.id.ToString(), pro.block.font, pro.block.text_brush, pro.block.draw_point);
-                }
-            }
+            readyQue.paint(sender, e);
         }
         private void autoSizeColumnNames()
         {
@@ -201,14 +159,8 @@ namespace CPU_Scheduler
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
-            if (!running)
-            {
-                running = true;
-                simulate();
-            } else
-            {
-                running = false;
-            }
+            readyQue.addProcesses(processes.ToArray());
+            readyQue.run();
         }
     }
 }
