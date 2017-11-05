@@ -215,7 +215,7 @@
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(933, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(929, 199);
             this.cyclePanel.TabIndex = 0;
             // 
             // Form1

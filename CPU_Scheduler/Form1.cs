@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ namespace CPU_Scheduler
         public DataTable table;
         private List<Process> processes;
         private ReadyQue readyQue;
+        private Boolean running;
         public Form1()
         {
             InitializeComponent();
@@ -24,8 +26,12 @@ namespace CPU_Scheduler
             addPropertyNames(); // Add property names to columns so we can bind to them
             createTable(); // Create a data table object and add it to our data source
             dataGridView1.DataSource = bindingSource1; // Bind table data
+            DoubleBuffered = true;
             cyclePanel.Paint += new PaintEventHandler(cyclePanel_Paint); // Add OnPaint Event for Gantt chart
             readyQuePanel.Paint += new PaintEventHandler(readyQue_Paint); // Add OnPaint Event for readyque panel
+            typeof(Panel).InvokeMember("DoubleBuffered",
+    BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+    null, cyclePanel, new object[] { true });
             Process test = new Process()
             {
                 id = 100,
@@ -46,6 +52,7 @@ namespace CPU_Scheduler
             };
             readyQue.addProcess(test);
             readyQue.addProcess(test1);
+            readyQue.run();
         }
         private void cyclePanel_Paint(object sender, PaintEventArgs e)
         {
@@ -180,15 +187,28 @@ namespace CPU_Scheduler
         {
             for (int i=0;i<1000;i++)
             {
-                await Task.Factory.StartNew(() => addProcess(1337));
-                Thread.Sleep(100);
-                cyclePanel.Refresh();
+                if (running)
+                {
+                    await Task.Factory.StartNew(() => addProcess(1337));
+                    Thread.Sleep(100);
+                    cyclePanel.Refresh();
+                } else
+                {
+                    break;
+                }
             }
         }
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
-            simulate();
+            if (!running)
+            {
+                running = true;
+                simulate();
+            } else
+            {
+                running = false;
+            }
         }
     }
 }

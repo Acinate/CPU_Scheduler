@@ -51,6 +51,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="JPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="NewProcess.cs">
       <SubType>Form</SubType>
     </Compile>
