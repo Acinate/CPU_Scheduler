@@ -257,8 +257,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewTextBoxColumn TimeLeft;
         private System.Windows.Forms.DataGridViewTextBoxColumn Runtime;
-        private System.Windows.Forms.Panel cyclePanel;
         public System.Windows.Forms.Panel readyQuePanel;
+        public System.Windows.Forms.Panel cyclePanel;
     }
 }
 

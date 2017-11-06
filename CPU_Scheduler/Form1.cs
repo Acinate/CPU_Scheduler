@@ -13,13 +13,13 @@ namespace CPU_Scheduler
     {
         public DataTable table;
         private List<Process> processes;
-        private ReadyQue readyQue;
-        private Boolean running;
+        private CPU cpu;
+        private bool running;
         public Form1()
         {
             InitializeComponent();
             processes = new List<Process>();
-            readyQue = new ReadyQue(this);
+            cpu = new CPU(this);
             autoSizeColumnNames(); // Resize our grid component
             addPropertyNames(); // Add property names to columns so we can bind to them
             createTable(); // Create a data table object and add it to our data source
@@ -35,44 +35,11 @@ namespace CPU_Scheduler
         }
         private void cyclePanel_Paint(object sender, PaintEventArgs e)
         {
-            List<Process> updatedProcesses = new List<Process>();
-            Panel p = sender as Panel;
-            Graphics g = e.Graphics;
-            // If panel is full, remove the first item :: Can add a while loop here in the future
-            if (processes.Count > 1)
-            {
-                if (cyclePanel.Width < 2.0 * (processes[processes.Count - 2].block.x_position + 1 + processes[processes.Count - 2].block.width))
-                {
-                    processes.RemoveAt(0);
-                }
-            }
-            // Calculate drawing properties for each Process object          
-            for (int i=0;i<processes.Count;i++)
-            {
-                Process current = processes[i];
-                Process prev;
-                if (i == 0)
-                    current.block.x_position = 0;
-                else
-                {
-                    prev = processes[i - 1];
-                    current.block.x_position = prev.block.x_position + 1 + prev.block.width;
-                }   
-                current.block.y_position = 0;
-                current.block.width = 10;
-                current.block.height = cyclePanel.Height;
-                updatedProcesses.Add(current);
-            }
-            processes = updatedProcesses;
-            // Paint each Process object to the screen
-            foreach (Process process in processes) {
-                e.Graphics.FillRectangle(process.block.brush_color, process.block.x_position, process.block.y_position, process.block.width,process.block.height);
-            }
-            Console.WriteLine("We are painting..");
+            cpu.paint(sender, e);
         }
         private void readyQue_Paint(object sender, PaintEventArgs e)
         {
-            readyQue.paint(sender, e);
+            cpu.readyQue.paint(sender, e);
         }
         private void autoSizeColumnNames()
         {
@@ -96,7 +63,7 @@ namespace CPU_Scheduler
             table.Columns.AddRange(columns);
             bindingSource1.DataSource = table.DefaultView;
         }
-        private async void addProcess(int pid)
+        private void addProcess(int pid)
         {
             Random r = new Random();
             int rPriority = r.Next(0, 5);
@@ -122,7 +89,7 @@ namespace CPU_Scheduler
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
-            await Task.Factory.StartNew(() => table.Rows.Add(row));
+            table.Rows.Add(row);
         }
         private void btnNew_Click(object sender, EventArgs e)
         {
@@ -147,7 +114,7 @@ namespace CPU_Scheduler
             {
                 if (running)
                 {
-                    await Task.Factory.StartNew(() => addProcess(1337));
+                    addProcess(1337);
                     Thread.Sleep(100);
                     cyclePanel.Refresh();
                 } else
@@ -159,8 +126,8 @@ namespace CPU_Scheduler
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
-            readyQue.addProcesses(processes.ToArray());
-            readyQue.run();
+            cpu.readyQue.addProcesses(processes.ToArray());
+            cpu.readyQue.run();
         }
     }
 }
