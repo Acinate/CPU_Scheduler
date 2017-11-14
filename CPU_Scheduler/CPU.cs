@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +18,7 @@ namespace CPU_Scheduler
         {
             this.form = form;
             readyQue = new ReadyQue(form, this);
+            //deviceQue = new DeviceQue(form, this);
             taskHistory = new List<Task>();
         }
         public String status { get; set; }
@@ -35,7 +37,8 @@ namespace CPU_Scheduler
                 // If a process still needs more time, send to it to the back of the que
                 readyQue.processes.Insert(readyQue.processes.Count, process);
                 readyQue.processes.RemoveAt(0);
-                MessageBox.Show("Running process: " + process.id + ", time left: " + process.timeleft);
+                // MessageBox.Show("Running process: " + process.id + ", time left: " + process.timeleft);
+                Thread.Sleep(500);
                 ProcessBlock block = new ProcessBlock();
                 block.brush_color = process.block.brush_color;
                 block.width = 10;
@@ -67,19 +70,23 @@ namespace CPU_Scheduler
             // Calculate paint properties
             for (int i=0;i<taskHistory.Count;i++)
             {
+                Task current = taskHistory[i];
                 if (i == 0)
                 {
-                    taskHistory[i].block.x_position = 0;
+                    current.block.x_position = 0;
                 } else
                 {
                     Task prev = taskHistory[i - 1];
-                    taskHistory[i].block.x_position = prev.block.x_position + 1 + prev.block.width;
+                    current.block.x_position = prev.block.x_position + 1 + prev.block.width;
                 }
+                current.block.draw_point = new PointF(current.block.x_position, (current.block.height)/2);
+                taskHistory[i] = current;
             }
             // Paint each Process object to the screen
-            foreach (Task process in taskHistory)
+            foreach (Task task in taskHistory)
             {
-                e.Graphics.FillRectangle(process.block.brush_color, process.block.x_position, process.block.y_position, process.block.width, process.block.height);
+                e.Graphics.FillRectangle(task.block.brush_color, task.block.x_position, task.block.y_position, task.block.width, task.block.height);
+                e.Graphics.DrawString(task.process.id.ToString(), task.block.font, task.block.text_brush, task.block.draw_point);
             }
             Console.WriteLine("We are painting..");
         }
