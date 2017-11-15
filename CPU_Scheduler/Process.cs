@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CPU_Scheduler
 {
-    class Process
+    public class Process
     {
         public int id { get; set; }
         public string state { get; set; }

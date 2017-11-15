@@ -11,10 +11,9 @@ namespace CPU_Scheduler
 {
     public partial class Form1 : Form
     {
-        public DataTable table;
-        private List<Process> processes;
+        public DataTable processTable;
+        public List<Process> processes;
         private CPU cpu;
-        private bool running;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +30,6 @@ namespace CPU_Scheduler
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, cyclePanel, new object[] { true });
-            // Adding Processes to ready que
         }
         private void cyclePanel_Paint(object sender, PaintEventArgs e)
         {
@@ -57,11 +55,12 @@ namespace CPU_Scheduler
         }
         private void createTable()
         {
-            table = new DataTable();
-            DataRow row = table.NewRow();
+            processTable = new DataTable();
+            DataRow row = processTable.NewRow();
             DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft") };
-            table.Columns.AddRange(columns);
-            bindingSource1.DataSource = table.DefaultView;
+            processTable.Columns.AddRange(columns);
+            bindingSource1.DataSource = processTable.DefaultView;
+            processTable.PrimaryKey = new DataColumn[] { processTable.Columns["ProcessId"] };
         }
         private void addProcess(int pid)
         {
@@ -81,22 +80,53 @@ namespace CPU_Scheduler
             Random ra = new Random();
             int rnum = ra.Next(0, 4);
             p.block.brush_color = new SolidBrush(Color.FromArgb(100, colors[rnum]));
+            // Add new generated process to list
             processes.Add(p);
             // Create datarow from process object
-            DataRow row = table.NewRow();
+            DataRow row = processTable.NewRow();
             row["ProcessId"] = p.id;
             row["Priority"] = p.priority;
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
-            table.Rows.Add(row);
+            processTable.Rows.Add(row);
+        }
+        private void addProcessExact(Process p)
+        {
+            // Create datarow
+            DataRow row = processTable.NewRow();
+            row["ProcessId"] = p.id;
+            row["Priority"] = p.priority;
+            row["State"] = p.state;
+            row["Runtime"] = p.runtime;
+            row["TimeLeft"] = p.timeleft;
+            processTable.Rows.Add(row);
+        }
+        public void updateProcess(Process p)
+        {
+            DataRow row = processTable.Rows.Find(p.id);
+            row["ProcessId"] = p.id;
+            row["Priority"] = p.priority;
+            row["State"] = p.state;
+            row["Runtime"] = p.runtime;
+            row["TimeLeft"] = p.timeleft;
+        }
+        public void updateProcessTable()
+        {
+            processTable = new DataTable();
+            addPropertyNames();
+            createTable();
+            foreach (var process in processes)
+            {
+                addProcessExact(process);
+            }
         }
         private void btnNew_Click(object sender, EventArgs e)
         {
             int indexOfLastId;
             try
             {
-                indexOfLastId = int.Parse(table.Rows[table.Rows.Count - 1][0].ToString()) + 1;
+                indexOfLastId = int.Parse(processTable.Rows[processTable.Rows.Count - 1][0].ToString()) + 1;
                 Console.WriteLine();
             }
             catch (Exception ex)
@@ -108,26 +138,17 @@ namespace CPU_Scheduler
             Console.WriteLine(cyclePanel.Width);
         }
 
-        private async void simulate()
-        {
-            for (int i=0;i<1000;i++)
-            {
-                if (running)
-                {
-                    addProcess(1337);
-                    Thread.Sleep(100);
-                    cyclePanel.Refresh();
-                } else
-                {
-                    break;
-                }
-            }
-        }
-
         private void btnSimulate_Click(object sender, EventArgs e)
         {
             cpu.readyQue.addProcesses(processes.ToArray());
             cpu.readyQue.run();
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            // Resets all simulation data
+            processes = new List<Process>();
+            cpu = new CPU(this);
         }
     }
 }

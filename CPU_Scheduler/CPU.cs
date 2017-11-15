@@ -13,7 +13,7 @@ namespace CPU_Scheduler
     {
         public ReadyQue readyQue;
         private Form1 form;
-        private List<Task> taskHistory;
+        public List<Task> taskHistory;
         public CPU(Form1 form)
         {
             this.form = form;
@@ -22,17 +22,26 @@ namespace CPU_Scheduler
             taskHistory = new List<Task>();
         }
         public String status { get; set; }
-        public void runProcess(Process process)
+        public void runProcess(Process process, int timeslice)
         {
-            process.timeleft -= 5000;
-            process.runtime += 5000;
+            if (process.timeleft >= timeslice)
+            {
+
+                process.timeleft -= timeslice;
+                process.runtime += timeslice;
+            } else
+            {
+                process.runtime += process.timeleft;
+                process.timeleft -= process.timeleft;
+            }
             if (process.timeleft <= 0)
             {
                 // If a process is finished running, remove it from ready que
-                MessageBox.Show(process.id + " has finished running");
+                // MessageBox.Show(process.id + " has finished running");
+                process.timeleft = 0;
                 readyQue.processes.RemoveAt(0);
             }
-            else
+            if (process.timeleft > 0)
             {
                 // If a process still needs more time, send to it to the back of the que
                 readyQue.processes.Insert(readyQue.processes.Count, process);
@@ -41,7 +50,7 @@ namespace CPU_Scheduler
                 Thread.Sleep(500);
                 ProcessBlock block = new ProcessBlock();
                 block.brush_color = process.block.brush_color;
-                block.width = 10;
+                block.width = 30;
                 block.x_position = 0;
                 block.y_position = 0;
                 block.height = form.cyclePanel.Height;
@@ -50,10 +59,11 @@ namespace CPU_Scheduler
                     Task prevTask = taskHistory[taskHistory.Count - 1];
                     block.x_position = prevTask.block.x_position + 1 + prevTask.block.width;
                 }
-                Task task = new Task() { process = process, timeslice = 5000, block = block };
+                Task task = new Task() { process = process, timeslice = timeslice, block = block };
                 taskHistory.Add(task);
-                form.cyclePanel.Refresh(); // Paints the cpu task in cyclePanel
             }
+            form.updateProcess(process);
+            form.cyclePanel.Refresh(); // Paints the cpu task in cyclePanel
         }
         public void paint(object sender, PaintEventArgs e)
         {

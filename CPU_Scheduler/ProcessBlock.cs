@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CPU_Scheduler
 {
-    class ProcessBlock
+    public class ProcessBlock
     {
         public SolidBrush brush_color { get; set; }
         public int x_position { get; set; }

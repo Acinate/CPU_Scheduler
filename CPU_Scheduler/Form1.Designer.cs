@@ -39,7 +39,7 @@
             this.Runtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.btnSimulate = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.readyQuePanel = new System.Windows.Forms.Panel();
@@ -72,8 +72,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.readyQuePanel);
             this.splitContainer1.Panel2.Controls.Add(this.cyclePanel);
-            this.splitContainer1.Size = new System.Drawing.Size(1568, 1079);
-            this.splitContainer1.SplitterDistance = 620;
+            this.splitContainer1.Size = new System.Drawing.Size(1548, 1079);
+            this.splitContainer1.SplitterDistance = 658;
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -87,13 +87,12 @@
             this.panel2.Location = new System.Drawing.Point(6, 371);
             this.panel2.Margin = new System.Windows.Forms.Padding(6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(608, 702);
+            this.panel2.Size = new System.Drawing.Size(646, 702);
             this.panel2.TabIndex = 0;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -107,7 +106,7 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 40;
-            this.dataGridView1.Size = new System.Drawing.Size(608, 702);
+            this.dataGridView1.Size = new System.Drawing.Size(646, 702);
             this.dataGridView1.TabIndex = 0;
             // 
             // ProcessId
@@ -146,34 +145,35 @@
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(608, 354);
+            this.panel1.Size = new System.Drawing.Size(646, 354);
             this.panel1.TabIndex = 0;
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.btnReset);
             this.groupBox1.Controls.Add(this.btnSimulate);
             this.groupBox1.Controls.Add(this.btnNew);
-            this.groupBox1.Location = new System.Drawing.Point(58, 256);
+            this.groupBox1.Location = new System.Drawing.Point(0, 256);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox1.Size = new System.Drawing.Size(498, 98);
+            this.groupBox1.Size = new System.Drawing.Size(646, 98);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // button3
+            // btnReset
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(336, 37);
-            this.button3.Margin = new System.Windows.Forms.Padding(6);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(150, 44);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "New Random";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReset.Location = new System.Drawing.Point(484, 37);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(6);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(150, 44);
+            this.btnReset.TabIndex = 2;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnSimulate
             // 
@@ -182,7 +182,7 @@
             this.btnSimulate.Location = new System.Drawing.Point(174, 37);
             this.btnSimulate.Margin = new System.Windows.Forms.Padding(6);
             this.btnSimulate.Name = "btnSimulate";
-            this.btnSimulate.Size = new System.Drawing.Size(150, 44);
+            this.btnSimulate.Size = new System.Drawing.Size(298, 44);
             this.btnSimulate.TabIndex = 1;
             this.btnSimulate.Text = "Simulate";
             this.btnSimulate.UseVisualStyleBackColor = true;
@@ -215,14 +215,14 @@
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(925, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(745, 199);
             this.cyclePanel.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1568, 1079);
+            this.ClientSize = new System.Drawing.Size(1548, 1079);
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MinimumSize = new System.Drawing.Size(1574, 1088);
@@ -247,10 +247,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnSimulate;
         private System.Windows.Forms.Button btnNew;
-        private System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
@@ -259,6 +258,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Runtime;
         public System.Windows.Forms.Panel readyQuePanel;
         public System.Windows.Forms.Panel cyclePanel;
+        public System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

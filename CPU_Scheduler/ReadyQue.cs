@@ -12,6 +12,7 @@ namespace CPU_Scheduler
     {
         CPU cpu;
         Form1 form;
+        public List<Process> processes;
         public ReadyQue(Form1 form, CPU cpu)
         {
             this.form = form;
@@ -27,14 +28,19 @@ namespace CPU_Scheduler
                 {
                     // If no processes, CPU is idle
                     MessageBox.Show("Idle cpu");
+                    // Attempt to clear the ready que
+                    form.processes = new List<Process>();
                     running = false;
                 }
                 else
                 {
                     // Run the process for the allowed timeslice
-                    cpu.runProcess(processes[0]);
+                    cpu.runProcess(processes[0], 5000);
                 }
-                form.readyQuePanel.Refresh(); // This is what paints our process information
+                // Paints processes in ready que
+                form.readyQuePanel.Refresh();
+                // Allow the listview to update
+                form.dataGridView1.Update();
             }
         }
         public void paint(object sender, PaintEventArgs e)
@@ -64,7 +70,6 @@ namespace CPU_Scheduler
                 e.Graphics.DrawString(pro.id.ToString(), pro.block.font, pro.block.text_brush, pro.block.draw_point);
             }
         }
-        public List<Process> processes;
         public void addProcess(Process p)
         {
             processes.Add(p);
