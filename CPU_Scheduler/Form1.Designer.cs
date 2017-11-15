@@ -92,7 +92,8 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -204,7 +205,7 @@
             this.readyQuePanel.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.readyQuePanel.Location = new System.Drawing.Point(4, 260);
             this.readyQuePanel.Name = "readyQuePanel";
-            this.readyQuePanel.Size = new System.Drawing.Size(933, 195);
+            this.readyQuePanel.Size = new System.Drawing.Size(875, 195);
             this.readyQuePanel.TabIndex = 1;
             // 
             // cyclePanel
@@ -215,7 +216,7 @@
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(745, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(875, 199);
             this.cyclePanel.TabIndex = 0;
             // 
             // Form1
