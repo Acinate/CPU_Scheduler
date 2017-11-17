@@ -52,12 +52,13 @@ namespace CPU_Scheduler
             dataGridView1.Columns[2].DataPropertyName = "Priority";
             dataGridView1.Columns[3].DataPropertyName = "TimeLeft";
             dataGridView1.Columns[4].DataPropertyName = "Runtime";
+            dataGridView1.Columns[5].DataPropertyName = "ContextSwitches";
         }
         private void createTable()
         {
             processTable = new DataTable();
             DataRow row = processTable.NewRow();
-            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft") };
+            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft"), new DataColumn("ContextSwitches") };
             processTable.Columns.AddRange(columns);
             bindingSource1.DataSource = processTable.DefaultView;
             processTable.PrimaryKey = new DataColumn[] { processTable.Columns["ProcessId"] };
@@ -74,6 +75,7 @@ namespace CPU_Scheduler
             p.priority = rPriority;
             p.timeleft = rTimeleft;
             p.runtime = 0;
+            p.contextSwitches = 0;
             p.block = new ProcessBlock();
             // Add random block color
             Color[] colors = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Purple, Color.Black };
@@ -89,6 +91,7 @@ namespace CPU_Scheduler
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
+            row["ContextSwitches"] = p.contextSwitches;
             processTable.Rows.Add(row);
         }
         private void addProcessExact(Process p)
@@ -100,6 +103,7 @@ namespace CPU_Scheduler
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
+            row["ContextSwitches"] = p.contextSwitches;
             processTable.Rows.Add(row);
         }
         public void updateProcess(Process p)
@@ -110,6 +114,7 @@ namespace CPU_Scheduler
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
+            row["ContextSwitches"] = p.contextSwitches;
         }
         public void updateProcessTable()
         {
@@ -141,7 +146,7 @@ namespace CPU_Scheduler
         private void btnSimulate_Click(object sender, EventArgs e)
         {
             cpu.readyQue.addProcesses(processes.ToArray());
-            cpu.readyQue.run();
+            System.Threading.Tasks.Task.Factory.StartNew(()=> cpu.readyQue.run());
         }
 
         private void btnReset_Click(object sender, EventArgs e)

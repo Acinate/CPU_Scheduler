@@ -13,6 +13,7 @@ namespace CPU_Scheduler
         public long runtime { get; set; }
         public int priority { get; set; }
         public int timeleft { get; set; }
+        public int contextSwitches { get; set; }
         public ProcessBlock block { get; set; }
     }
 }

@@ -32,11 +32,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TimeLeft = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Runtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnReset = new System.Windows.Forms.Button();
@@ -45,6 +40,12 @@
             this.readyQuePanel = new System.Windows.Forms.Panel();
             this.cyclePanel = new System.Windows.Forms.Panel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimeLeft = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Runtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContextSwitches = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,40 +103,14 @@
             this.State,
             this.Priority,
             this.TimeLeft,
-            this.Runtime});
+            this.Runtime,
+            this.ContextSwitches});
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 40;
             this.dataGridView1.Size = new System.Drawing.Size(646, 702);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // ProcessId
-            // 
-            this.ProcessId.HeaderText = "PID";
-            this.ProcessId.Name = "ProcessId";
-            // 
-            // State
-            // 
-            this.State.HeaderText = "State";
-            this.State.Name = "State";
-            // 
-            // Priority
-            // 
-            this.Priority.HeaderText = "Priority";
-            this.Priority.Name = "Priority";
-            // 
-            // TimeLeft
-            // 
-            this.TimeLeft.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.TimeLeft.HeaderText = "Time Left";
-            this.TimeLeft.Name = "TimeLeft";
-            this.TimeLeft.Width = 146;
-            // 
-            // Runtime
-            // 
-            this.Runtime.HeaderText = "Running Time";
-            this.Runtime.Name = "Runtime";
             // 
             // panel1
             // 
@@ -216,8 +191,40 @@
             this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.cyclePanel.Location = new System.Drawing.Point(4, 6);
             this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(875, 199);
+            this.cyclePanel.Size = new System.Drawing.Size(871, 199);
             this.cyclePanel.TabIndex = 0;
+            // 
+            // ProcessId
+            // 
+            this.ProcessId.HeaderText = "PID";
+            this.ProcessId.Name = "ProcessId";
+            // 
+            // State
+            // 
+            this.State.HeaderText = "State";
+            this.State.Name = "State";
+            // 
+            // Priority
+            // 
+            this.Priority.HeaderText = "Priority";
+            this.Priority.Name = "Priority";
+            // 
+            // TimeLeft
+            // 
+            this.TimeLeft.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.TimeLeft.HeaderText = "Time Left";
+            this.TimeLeft.Name = "TimeLeft";
+            this.TimeLeft.Width = 146;
+            // 
+            // Runtime
+            // 
+            this.Runtime.HeaderText = "Running Time";
+            this.Runtime.Name = "Runtime";
+            // 
+            // ContextSwitches
+            // 
+            this.ContextSwitches.HeaderText = "Switches";
+            this.ContextSwitches.Name = "ContextSwitches";
             // 
             // Form1
             // 
@@ -252,14 +259,15 @@
         private System.Windows.Forms.Button btnSimulate;
         private System.Windows.Forms.Button btnNew;
         public System.Windows.Forms.BindingSource bindingSource1;
+        public System.Windows.Forms.Panel readyQuePanel;
+        public System.Windows.Forms.Panel cyclePanel;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewTextBoxColumn TimeLeft;
         private System.Windows.Forms.DataGridViewTextBoxColumn Runtime;
-        public System.Windows.Forms.Panel readyQuePanel;
-        public System.Windows.Forms.Panel cyclePanel;
-        public System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContextSwitches;
     }
 }
 

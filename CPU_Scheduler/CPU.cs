@@ -26,7 +26,7 @@ namespace CPU_Scheduler
         {
             if (process.timeleft >= timeslice)
             {
-
+                process.contextSwitches++;
                 process.timeleft -= timeslice;
                 process.runtime += timeslice;
             } else
@@ -63,7 +63,18 @@ namespace CPU_Scheduler
                 taskHistory.Add(task);
             }
             form.updateProcess(process);
-            form.cyclePanel.Refresh(); // Paints the cpu task in cyclePanel
+            // Paints the cpu task in cyclePanel
+            if (form.cyclePanel.InvokeRequired)
+            {
+                form.cyclePanel.Invoke((MethodInvoker)delegate ()
+                {
+                    form.cyclePanel.Refresh();
+                });
+            } else
+            {
+                form.cyclePanel.Refresh();
+            }
+            System.Threading.Tasks.Task.Factory.StartNew(()=>System.Threading.Tasks.Task.Delay(10));
         }
         public void paint(object sender, PaintEventArgs e)
         {

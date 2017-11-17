@@ -37,10 +37,18 @@ namespace CPU_Scheduler
                     // Run the process for the allowed timeslice
                     cpu.runProcess(processes[0], 5000);
                 }
-                // Paints processes in ready que
-                form.readyQuePanel.Refresh();
+                if (form.readyQuePanel.InvokeRequired)
+                {
+                    form.readyQuePanel.Invoke((MethodInvoker)delegate ()
+                    {
+                        form.readyQuePanel.Refresh();
+                    });
+                } else
+                {
+                    form.readyQuePanel.Refresh();
+                }
                 // Allow the listview to update
-                form.dataGridView1.Update();
+                // form.dataGridView1.Update();
             }
         }
         public void paint(object sender, PaintEventArgs e)
