@@ -31,14 +31,14 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.btnSimulate = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
-            this.readyQuePanel = new System.Windows.Forms.Panel();
+            this.btnSimulate = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.cyclePanel = new System.Windows.Forms.Panel();
+            this.readyQuePanel = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.ProcessId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,14 +46,15 @@
             this.TimeLeft = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Runtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContextSwitches = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblReadyQue = new System.Windows.Forms.Label();
+            this.lblTaskHistory = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,10 +72,12 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.readyQuePanel);
-            this.splitContainer1.Panel2.Controls.Add(this.cyclePanel);
-            this.splitContainer1.Size = new System.Drawing.Size(1548, 1079);
-            this.splitContainer1.SplitterDistance = 658;
+            this.splitContainer1.Panel2.Controls.Add(this.lblTaskHistory);
+            this.splitContainer1.Panel2.Controls.Add(this.lblReadyQue);
+            this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel1);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Size = new System.Drawing.Size(998, 697);
+            this.splitContainer1.SplitterDistance = 88;
             this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -84,19 +87,96 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Location = new System.Drawing.Point(6, 371);
             this.panel2.Margin = new System.Windows.Forms.Padding(6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(646, 702);
+            this.panel2.Size = new System.Drawing.Size(76, 320);
             this.panel2.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.btnNew);
+            this.panel1.Controls.Add(this.btnSimulate);
+            this.panel1.Controls.Add(this.btnReset);
+            this.panel1.Location = new System.Drawing.Point(6, 6);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(76, 354);
+            this.panel1.TabIndex = 0;
+            // 
+            // btnNew
+            // 
+            this.btnNew.Location = new System.Drawing.Point(6, 9);
+            this.btnNew.Margin = new System.Windows.Forms.Padding(6);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(64, 44);
+            this.btnNew.TabIndex = 0;
+            this.btnNew.Text = "New Process";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // btnSimulate
+            // 
+            this.btnSimulate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSimulate.Location = new System.Drawing.Point(6, 65);
+            this.btnSimulate.Margin = new System.Windows.Forms.Padding(6);
+            this.btnSimulate.Name = "btnSimulate";
+            this.btnSimulate.Size = new System.Drawing.Size(64, 44);
+            this.btnSimulate.TabIndex = 1;
+            this.btnSimulate.Text = "Simulate";
+            this.btnSimulate.UseVisualStyleBackColor = true;
+            this.btnSimulate.Click += new System.EventHandler(this.btnSimulate_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReset.Location = new System.Drawing.Point(6, 121);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(6);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(64, 44);
+            this.btnReset.TabIndex = 2;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.cyclePanel);
+            this.flowLayoutPanel1.Controls.Add(this.readyQuePanel);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 597);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(899, 97);
+            this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // cyclePanel
+            // 
+            this.cyclePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cyclePanel.AutoScroll = true;
+            this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.cyclePanel.Location = new System.Drawing.Point(3, 6);
+            this.cyclePanel.Name = "cyclePanel";
+            this.cyclePanel.Size = new System.Drawing.Size(586, 85);
+            this.cyclePanel.TabIndex = 0;
+            // 
+            // readyQuePanel
+            // 
+            this.readyQuePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.readyQuePanel.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.readyQuePanel.Location = new System.Drawing.Point(595, 3);
+            this.readyQuePanel.Name = "readyQuePanel";
+            this.readyQuePanel.Size = new System.Drawing.Size(301, 91);
+            this.readyQuePanel.TabIndex = 1;
             // 
             // dataGridView1
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProcessId,
@@ -105,94 +185,12 @@
             this.TimeLeft,
             this.Runtime,
             this.ContextSwitches});
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 6);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 40;
-            this.dataGridView1.Size = new System.Drawing.Size(646, 702);
+            this.dataGridView1.Size = new System.Drawing.Size(891, 317);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Location = new System.Drawing.Point(6, 6);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(646, 354);
-            this.panel1.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.btnReset);
-            this.groupBox1.Controls.Add(this.btnSimulate);
-            this.groupBox1.Controls.Add(this.btnNew);
-            this.groupBox1.Location = new System.Drawing.Point(0, 256);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox1.Size = new System.Drawing.Size(646, 98);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            // 
-            // btnReset
-            // 
-            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(484, 37);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(6);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(150, 44);
-            this.btnReset.TabIndex = 2;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // btnSimulate
-            // 
-            this.btnSimulate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSimulate.Location = new System.Drawing.Point(174, 37);
-            this.btnSimulate.Margin = new System.Windows.Forms.Padding(6);
-            this.btnSimulate.Name = "btnSimulate";
-            this.btnSimulate.Size = new System.Drawing.Size(298, 44);
-            this.btnSimulate.TabIndex = 1;
-            this.btnSimulate.Text = "Simulate";
-            this.btnSimulate.UseVisualStyleBackColor = true;
-            this.btnSimulate.Click += new System.EventHandler(this.btnSimulate_Click);
-            // 
-            // btnNew
-            // 
-            this.btnNew.Location = new System.Drawing.Point(12, 37);
-            this.btnNew.Margin = new System.Windows.Forms.Padding(6);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(150, 44);
-            this.btnNew.TabIndex = 0;
-            this.btnNew.Text = "New Process";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
-            // readyQuePanel
-            // 
-            this.readyQuePanel.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.readyQuePanel.Location = new System.Drawing.Point(4, 260);
-            this.readyQuePanel.Name = "readyQuePanel";
-            this.readyQuePanel.Size = new System.Drawing.Size(875, 195);
-            this.readyQuePanel.TabIndex = 1;
-            // 
-            // cyclePanel
-            // 
-            this.cyclePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cyclePanel.AutoScroll = true;
-            this.cyclePanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.cyclePanel.Location = new System.Drawing.Point(4, 6);
-            this.cyclePanel.Name = "cyclePanel";
-            this.cyclePanel.Size = new System.Drawing.Size(871, 199);
-            this.cyclePanel.TabIndex = 0;
             // 
             // ProcessId
             // 
@@ -218,7 +216,7 @@
             // 
             // Runtime
             // 
-            this.Runtime.HeaderText = "Running Time";
+            this.Runtime.HeaderText = "Time Ran";
             this.Runtime.Name = "Runtime";
             // 
             // ContextSwitches
@@ -226,24 +224,45 @@
             this.ContextSwitches.HeaderText = "Switches";
             this.ContextSwitches.Name = "ContextSwitches";
             // 
+            // lblReadyQue
+            // 
+            this.lblReadyQue.AutoSize = true;
+            this.lblReadyQue.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReadyQue.Location = new System.Drawing.Point(598, 545);
+            this.lblReadyQue.Name = "lblReadyQue";
+            this.lblReadyQue.Size = new System.Drawing.Size(277, 55);
+            this.lblReadyQue.TabIndex = 3;
+            this.lblReadyQue.Text = "Ready Que";
+            // 
+            // lblTaskHistory
+            // 
+            this.lblTaskHistory.AutoSize = true;
+            this.lblTaskHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTaskHistory.Location = new System.Drawing.Point(-7, 545);
+            this.lblTaskHistory.Name = "lblTaskHistory";
+            this.lblTaskHistory.Size = new System.Drawing.Size(302, 55);
+            this.lblTaskHistory.TabIndex = 4;
+            this.lblTaskHistory.Text = "Task History";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1548, 1079);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(998, 697);
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(6);
-            this.MinimumSize = new System.Drawing.Size(1574, 1088);
+            this.MaximumSize = new System.Drawing.Size(1024, 768);
+            this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CPU SCHED";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
@@ -254,7 +273,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnSimulate;
         private System.Windows.Forms.Button btnNew;
@@ -262,12 +280,15 @@
         public System.Windows.Forms.Panel readyQuePanel;
         public System.Windows.Forms.Panel cyclePanel;
         public System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProcessId;
         private System.Windows.Forms.DataGridViewTextBoxColumn State;
         private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
         private System.Windows.Forms.DataGridViewTextBoxColumn TimeLeft;
         private System.Windows.Forms.DataGridViewTextBoxColumn Runtime;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContextSwitches;
+        private System.Windows.Forms.Label lblTaskHistory;
+        private System.Windows.Forms.Label lblReadyQue;
     }
 }
 

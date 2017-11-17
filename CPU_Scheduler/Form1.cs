@@ -108,13 +108,19 @@ namespace CPU_Scheduler
         }
         public void updateProcess(Process p)
         {
-            DataRow row = processTable.Rows.Find(p.id);
-            row["ProcessId"] = p.id;
-            row["Priority"] = p.priority;
-            row["State"] = p.state;
-            row["Runtime"] = p.runtime;
-            row["TimeLeft"] = p.timeleft;
-            row["ContextSwitches"] = p.contextSwitches;
+            try
+            {
+                DataRow row = processTable.Rows.Find(p.id);
+                row["ProcessId"] = p.id;
+                row["Priority"] = p.priority;
+                row["State"] = p.state;
+                row["Runtime"] = p.runtime;
+                row["TimeLeft"] = p.timeleft;
+                row["ContextSwitches"] = p.contextSwitches;
+            } catch (Exception e)
+            {
+                Console.WriteLine("Error updating process table.");
+            }
         }
         public void updateProcessTable()
         {
@@ -145,6 +151,7 @@ namespace CPU_Scheduler
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
+            btnSimulate.Enabled = false;
             cpu.readyQue.addProcesses(processes.ToArray());
             System.Threading.Tasks.Task.Factory.StartNew(()=> cpu.readyQue.run());
         }
@@ -153,7 +160,12 @@ namespace CPU_Scheduler
         {
             // Resets all simulation data
             processes = new List<Process>();
-            cpu = new CPU(this);
+            processTable.Clear();
+            cpu.taskHistory = new List<Task>();
+            cpu.readyQue.processes = new List<Process>();
+            readyQuePanel.Refresh();
+            cpu.readyQue.running = false;
+            btnSimulate.Enabled = true;
         }
     }
 }

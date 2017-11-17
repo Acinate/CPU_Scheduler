@@ -13,6 +13,7 @@ namespace CPU_Scheduler
         CPU cpu;
         Form1 form;
         public List<Process> processes;
+        public bool running;
         public ReadyQue(Form1 form, CPU cpu)
         {
             this.form = form;
@@ -47,8 +48,6 @@ namespace CPU_Scheduler
                 {
                     form.readyQuePanel.Refresh();
                 }
-                // Allow the listview to update
-                // form.dataGridView1.Update();
             }
         }
         public void paint(object sender, PaintEventArgs e)
@@ -93,6 +92,5 @@ namespace CPU_Scheduler
         {
             processes.RemoveAt(id);
         }
-        private bool running;
     }
 }
