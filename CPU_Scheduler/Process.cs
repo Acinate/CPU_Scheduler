@@ -10,6 +10,7 @@ namespace CPU_Scheduler
     {
         public int id { get; set; }
         public string state { get; set; }
+        public int arrivalTime { get; set; }
         public long runtime { get; set; }
         public int priority { get; set; }
         public int timeleft { get; set; }

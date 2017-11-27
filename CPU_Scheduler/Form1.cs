@@ -49,16 +49,17 @@ namespace CPU_Scheduler
         {
             dataGridView1.Columns[0].DataPropertyName = "ProcessId";
             dataGridView1.Columns[1].DataPropertyName = "State";
-            dataGridView1.Columns[2].DataPropertyName = "Priority";
-            dataGridView1.Columns[3].DataPropertyName = "TimeLeft";
-            dataGridView1.Columns[4].DataPropertyName = "Runtime";
-            dataGridView1.Columns[5].DataPropertyName = "ContextSwitches";
+            dataGridView1.Columns[2].DataPropertyName = "ArrivalTime";
+            dataGridView1.Columns[3].DataPropertyName = "Priority";
+            dataGridView1.Columns[4].DataPropertyName = "TimeLeft";
+            dataGridView1.Columns[5].DataPropertyName = "Runtime";
+            dataGridView1.Columns[6].DataPropertyName = "ContextSwitches";
         }
         private void createTable()
         {
             processTable = new DataTable();
             DataRow row = processTable.NewRow();
-            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft"), new DataColumn("ContextSwitches") };
+            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("ArrivalTime"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft"), new DataColumn("ContextSwitches") };
             processTable.Columns.AddRange(columns);
             bindingSource1.DataSource = processTable.DefaultView;
             processTable.PrimaryKey = new DataColumn[] { processTable.Columns["ProcessId"] };
@@ -66,12 +67,14 @@ namespace CPU_Scheduler
         private void addProcess(int pid)
         {
             Random r = new Random();
+            int rArrival = r.Next(0, 15);
             int rPriority = r.Next(0, 5);
-            int rTimeleft = r.Next(1000, 60000);
+            int rTimeleft = r.Next(10, 60);
             // Create process object
             Process p = new Process();
             p.id = pid;
-            p.state = "Ready";
+            p.state = "Null";
+            p.arrivalTime = rArrival;
             p.priority = rPriority;
             p.timeleft = rTimeleft;
             p.runtime = 0;
@@ -87,6 +90,7 @@ namespace CPU_Scheduler
             // Create datarow from process object
             DataRow row = processTable.NewRow();
             row["ProcessId"] = p.id;
+            row["ArrivalTime"] = p.arrivalTime;
             row["Priority"] = p.priority;
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
@@ -99,6 +103,7 @@ namespace CPU_Scheduler
             // Create datarow
             DataRow row = processTable.NewRow();
             row["ProcessId"] = p.id;
+            row["ArrivalTime"] = p.arrivalTime;
             row["Priority"] = p.priority;
             row["State"] = p.state;
             row["Runtime"] = p.runtime;
@@ -112,24 +117,16 @@ namespace CPU_Scheduler
             {
                 DataRow row = processTable.Rows.Find(p.id);
                 row["ProcessId"] = p.id;
+                row["ArrivalTime"] = p.arrivalTime;
                 row["Priority"] = p.priority;
                 row["State"] = p.state;
                 row["Runtime"] = p.runtime;
                 row["TimeLeft"] = p.timeleft;
                 row["ContextSwitches"] = p.contextSwitches;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("Error updating process table.");
-            }
-        }
-        public void updateProcessTable()
-        {
-            processTable = new DataTable();
-            addPropertyNames();
-            createTable();
-            foreach (var process in processes)
-            {
-                addProcessExact(process);
             }
         }
         private void btnNew_Click(object sender, EventArgs e)
@@ -151,6 +148,7 @@ namespace CPU_Scheduler
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
+            btnNew.Enabled = false;
             btnSimulate.Enabled = false;
             cpu.readyQue.addProcesses(processes.ToArray());
             System.Threading.Tasks.Task.Factory.StartNew(()=> cpu.readyQue.run());
@@ -166,6 +164,10 @@ namespace CPU_Scheduler
             readyQuePanel.Refresh();
             cpu.readyQue.running = false;
             btnSimulate.Enabled = true;
+            btnNew.Enabled = true;
+            lblTimeRunning.Text = "0";
+            lblReadyQueSize.Text = "0";
+            lblTimeQuantum.Text = "0";
         }
     }
 }

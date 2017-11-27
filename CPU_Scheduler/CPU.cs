@@ -41,19 +41,21 @@ namespace CPU_Scheduler
                 process.state = "Terminated";
                 // If a process is finished running, remove it from ready que
                 process.timeleft = 0;
-                readyQue.processes.RemoveAt(0);
+                readyQue.processes.RemoveAll(p => p.id == process.id);
+                readyQue.readyProcesses.RemoveAt(0);
                 form.updateProcess(process);
             }
+            // Process is currently running, freeze simulation for allocated timeslice
+            Thread.Sleep(timeslice*100);
             if (process.timeleft > 0)
             {
                 // If a process still needs more time, send to it to the back of the que
-                readyQue.processes.Insert(readyQue.processes.Count, process);
-                readyQue.processes.RemoveAt(0);
+                readyQue.readyProcesses.Insert(readyQue.readyProcesses.Count, process);
+                readyQue.readyProcesses.RemoveAt(0);
                 // MessageBox.Show("Running process: " + process.id + ", time left: " + process.timeleft);
                 process.state = "Ready";
                 form.updateProcess(process);
             }
-            Thread.Sleep(timeslice / 20);
             ProcessBlock block = new ProcessBlock();
             block.brush_color = process.block.brush_color;
             block.width = 30;
