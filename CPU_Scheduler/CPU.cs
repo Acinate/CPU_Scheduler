@@ -47,6 +47,10 @@ namespace CPU_Scheduler
             }
             // Process is currently running, freeze simulation for allocated timeslice
             Thread.Sleep(timeslice*100);
+            // Remove 10ms from total_time_running to makeup for dispatcher latency
+            readyQue.total_time_running += (timeslice*100);
+            // Add quantum slice to simulation time
+            readyQue.simulation_time += timeslice;
             if (process.timeleft > 0)
             {
                 // If a process still needs more time, send to it to the back of the que

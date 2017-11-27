@@ -15,6 +15,10 @@ namespace CPU_Scheduler
         public List<Process> readyProcesses;
         public bool running;
         public Stopwatch timer;
+        public int simulation_time;
+        public int total_time_running;
+        public double cpu_utilization;
+        private int jobs_completed;
         public ReadyQue(Form1 form, CPU cpu)
         {
             this.form = form;
@@ -24,6 +28,9 @@ namespace CPU_Scheduler
         }
         public void run()
         {
+            total_time_running = 0;
+            cpu_utilization = 0;
+            jobs_completed = 0;
             // Calculate time quantum
             int quantum = 0;
             foreach (Process p in processes)
@@ -50,6 +57,14 @@ namespace CPU_Scheduler
                         form.lblTimeRunning.Text = (timer.ElapsedMilliseconds/1000).ToString();
                     });
                 }
+                // Update simulation time
+                if (form.InvokeRequired)
+                {
+                    form.lblTimeRunning.Invoke((MethodInvoker)delegate ()
+                   {
+                       form.lblSimulationTime.Text = simulation_time.ToString();
+                   });
+                }
                 // Update ready que size
                 if (form.lblReadyQueSize.InvokeRequired)
                 {
@@ -57,6 +72,20 @@ namespace CPU_Scheduler
                     {
                         form.lblReadyQueSize.Text = readyProcesses.Count.ToString();
                     });
+                }
+                // Calculate average context switch
+                int avg_context_switch = 0;
+                int rows = form.dataGridView1.Rows.Count;
+                for (int i=0;i<form.dataGridView1.Rows.Count-1;i++)
+                {
+                    avg_context_switch += int.Parse(form.dataGridView1["ContextSwitches", i].Value.ToString());
+                }
+                if (form.lblAvgContextSwitch.InvokeRequired)
+                {
+                    form.lblAvgContextSwitch.Invoke((MethodInvoker)delegate ()
+                   {
+                       form.lblAvgContextSwitch.Text = (avg_context_switch / rows).ToString();
+                   });
                 }
                 // Add Processes to ready que when arrival time is passed
                 foreach (Process process in processes)
@@ -71,9 +100,9 @@ namespace CPU_Scheduler
                         }
                     }
                 }
+                // Check if there are still processes left to run
                 if (processes.Count == 0 && readyProcesses.Count == 0)
                 {
-                    // If no processes, CPU is idle
                     MessageBox.Show("Idle cpu");
                     // Attempt to clear the ready que
                     form.processes = new List<Process>();
@@ -86,6 +115,7 @@ namespace CPU_Scheduler
                     {
                         // Run the process for the allowed timeslice
                         cpu.runProcess(readyProcesses[0], quantum);
+                        jobs_completed++;
                     }
                 }
                 if (form.readyQuePanel.InvokeRequired)
@@ -97,6 +127,25 @@ namespace CPU_Scheduler
                 } else
                 {
                     form.readyQuePanel.Refresh();
+                }
+                // Calculate CPU Utilization
+                if (total_time_running>0)
+                cpu_utilization = Math.Round((double)(100-(timer.ElapsedMilliseconds/total_time_running)),2);
+                // Update CPU Utilization
+                if (form.lblCpuUtilization.InvokeRequired)
+                {
+                    form.lblCpuUtilization.Invoke((MethodInvoker)delegate ()
+                   {
+                       form.lblCpuUtilization.Text = cpu_utilization + "%";
+                   });
+                }
+                // Update jobs completed
+                if (form.lblJobsCompleted.InvokeRequired)
+                {
+                    form.lblJobsCompleted.Invoke((MethodInvoker)delegate ()
+                   {
+                       form.lblJobsCompleted.Text = jobs_completed.ToString();
+                   });
                 }
             }
         }
