@@ -40,10 +40,12 @@ namespace CPU_Scheduler
             {
                 process.state = "Terminated";
                 // If a process is finished running, remove it from ready que
+                process.timeEnded = readyQue.simulation_time;
                 process.timeleft = 0;
                 readyQue.processes.RemoveAll(p => p.id == process.id);
                 readyQue.readyProcesses.RemoveAt(0);
                 form.updateProcess(process);
+                readyQue.processes_completed++;
             }
             // Process is currently running, freeze simulation for allocated timeslice
             Thread.Sleep(timeslice*100);

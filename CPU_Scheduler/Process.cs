@@ -15,6 +15,8 @@ namespace CPU_Scheduler
         public int priority { get; set; }
         public int timeleft { get; set; }
         public int contextSwitches { get; set; }
+        public int timeStarted { get; set; }
+        public int timeEnded { get; set; }
         public ProcessBlock block { get; set; }
     }
 }

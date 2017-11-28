@@ -18,6 +18,8 @@ namespace CPU_Scheduler
         public int simulation_time;
         public int total_time_running;
         public double cpu_utilization;
+        public int processes_completed;
+        private int throughput;
         private int jobs_completed;
         public ReadyQue(Form1 form, CPU cpu)
         {
@@ -28,9 +30,11 @@ namespace CPU_Scheduler
         }
         public void run()
         {
+            simulation_time = 0;
             total_time_running = 0;
             cpu_utilization = 0;
             jobs_completed = 0;
+            throughput = 0;
             // Calculate time quantum
             int quantum = 0;
             foreach (Process p in processes)
@@ -75,16 +79,21 @@ namespace CPU_Scheduler
                 }
                 // Calculate average context switch
                 int avg_context_switch = 0;
-                int rows = form.dataGridView1.Rows.Count;
+                int avg_context_switch_counter = 0;
                 for (int i=0;i<form.dataGridView1.Rows.Count-1;i++)
                 {
-                    avg_context_switch += int.Parse(form.dataGridView1["ContextSwitches", i].Value.ToString());
+                    if (int.Parse(form.dataGridView1["ContextSwitches", i].Value.ToString())>0)
+                    {
+                        avg_context_switch += int.Parse(form.dataGridView1["ContextSwitches", i].Value.ToString());
+                        avg_context_switch_counter++;
+                    }
                 }
                 if (form.lblAvgContextSwitch.InvokeRequired)
                 {
                     form.lblAvgContextSwitch.Invoke((MethodInvoker)delegate ()
                    {
-                       form.lblAvgContextSwitch.Text = (avg_context_switch / rows).ToString();
+                       if (avg_context_switch_counter>0)
+                        form.lblAvgContextSwitch.Text = (avg_context_switch / avg_context_switch_counter).ToString();
                    });
                 }
                 // Add Processes to ready que when arrival time is passed
@@ -95,7 +104,8 @@ namespace CPU_Scheduler
                         if (!readyProcesses.Any(p => p.id == process.id))
                         {
                             // Run the process for the allowed timeslice
-                            Console.WriteLine("Process: " + process.id + " Arrival Time: " + process.arrivalTime + " >= " + (timer.ElapsedMilliseconds / 1000).ToString());
+                            // Console.WriteLine("Process: " + process.id + " Arrival Time: " + process.arrivalTime + " >= " + (timer.ElapsedMilliseconds / 1000).ToString());
+                            process.timeStarted = simulation_time;
                             readyProcesses.Add(process);
                         }
                     }
@@ -127,6 +137,38 @@ namespace CPU_Scheduler
                 } else
                 {
                     form.readyQuePanel.Refresh();
+                }
+                // Calculate average throughput
+                if (processes_completed > 0)
+                throughput = (simulation_time / processes_completed);
+                // Update Throughput
+                if (form.lblAverageThroughput.InvokeRequired)
+                {
+                    form.lblAverageThroughput.Invoke((MethodInvoker)delegate ()
+                    {
+                        form.lblAverageThroughput.Text = throughput.ToString();
+                    });
+                }
+                // Calculate average turnaround
+                int average_turnaround = 0;
+                int average_turnaround_counter = 0;
+                for (int i = 0; i< form.dataGridView1.Rows.Count-1; i++)
+                {
+                    if (int.Parse(form.dataGridView1["TimeEnded", i].Value.ToString()) > 0)
+                    {
+                        average_turnaround += int.Parse(form.dataGridView1["TimeEnded", i].Value.ToString()) - int.Parse(form.dataGridView1["TimeStarted", i].Value.ToString()); ;
+                        average_turnaround_counter++;
+                    }
+                }
+                if (average_turnaround_counter>0)
+                average_turnaround /= average_turnaround_counter;
+                // Display average turnaround
+                if (form.lblAvgTurnaround.InvokeRequired)
+                {
+                   form.lblAvgTurnaround.Invoke((MethodInvoker)delegate ()
+                   {
+                       form.lblAvgTurnaround.Text = average_turnaround.ToString();
+                   });
                 }
                 // Calculate CPU Utilization
                 if (total_time_running>0)

@@ -54,12 +54,14 @@ namespace CPU_Scheduler
             dataGridView1.Columns[4].DataPropertyName = "TimeLeft";
             dataGridView1.Columns[5].DataPropertyName = "Runtime";
             dataGridView1.Columns[6].DataPropertyName = "ContextSwitches";
+            dataGridView1.Columns[7].DataPropertyName = "TimeStarted";
+            dataGridView1.Columns[8].DataPropertyName = "TimeEnded";
         }
         private void createTable()
         {
             processTable = new DataTable();
             DataRow row = processTable.NewRow();
-            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("ArrivalTime"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft"), new DataColumn("ContextSwitches") };
+            DataColumn[] columns = new DataColumn[] { new DataColumn("ProcessId"), new DataColumn("State"), new DataColumn("ArrivalTime"), new DataColumn("Priority"), new DataColumn("Runtime"), new DataColumn("TimeLeft"), new DataColumn("ContextSwitches"), new DataColumn("TimeStarted"), new DataColumn("TimeEnded") };
             processTable.Columns.AddRange(columns);
             bindingSource1.DataSource = processTable.DefaultView;
             processTable.PrimaryKey = new DataColumn[] { processTable.Columns["ProcessId"] };
@@ -79,6 +81,8 @@ namespace CPU_Scheduler
             p.timeleft = rTimeleft;
             p.runtime = 0;
             p.contextSwitches = 0;
+            p.timeStarted = 0;
+            p.timeEnded = 0;
             p.block = new ProcessBlock();
             // Add random block color
             Color[] colors = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Purple, Color.Black };
@@ -96,6 +100,8 @@ namespace CPU_Scheduler
             row["Runtime"] = p.runtime;
             row["TimeLeft"] = p.timeleft;
             row["ContextSwitches"] = p.contextSwitches;
+            row["TimeStarted"] = p.timeStarted;
+            row["TimeEnded"] = p.timeEnded;
             processTable.Rows.Add(row);
         }
         private void addProcessExact(Process p)
@@ -123,6 +129,8 @@ namespace CPU_Scheduler
                 row["Runtime"] = p.runtime;
                 row["TimeLeft"] = p.timeleft;
                 row["ContextSwitches"] = p.contextSwitches;
+                row["TimeStarted"] = p.timeStarted;
+                row["TimeEnded"] = p.timeEnded;
             }
             catch (Exception e)
             {
@@ -135,7 +143,6 @@ namespace CPU_Scheduler
             try
             {
                 indexOfLastId = int.Parse(processTable.Rows[processTable.Rows.Count - 1][0].ToString()) + 1;
-                Console.WriteLine();
             }
             catch (Exception ex)
             {
@@ -143,7 +150,6 @@ namespace CPU_Scheduler
             }
             addProcess(indexOfLastId);
             cyclePanel.Refresh();
-            Console.WriteLine(cyclePanel.Width);
         }
 
         private void btnSimulate_Click(object sender, EventArgs e)
