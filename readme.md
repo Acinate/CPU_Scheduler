@@ -7,7 +7,7 @@ Potential Implementations:
 - IO Cycles and Device Ques
 
 Version 0.7: Adding scheduling calculations
-![alt tag](https://ibb.co/iuYSHc)
+![alt tag](https://image.ibb.co/mOtSHc/CPUSched.png)
 
 Version 0.1: Getting GUI up and running
              Process, Task, CPU, Ready Que objects created and
