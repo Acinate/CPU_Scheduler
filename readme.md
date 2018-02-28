@@ -12,4 +12,4 @@ Version 0.7: Adding scheduling calculations
 Version 0.1: Getting GUI up and running
              Process, Task, CPU, Ready Que objects created and
              tested in live simulation.
-![alt tag](https://ibb.co/jROiqx)
+![alt tag](hhttps://image.ibb.co/iun9Vx/CPUSched2.png)
